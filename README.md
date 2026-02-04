@@ -1,150 +1,303 @@
-# What Format
+<div align="center">
 
-简历/求职信模板统一格式转换服务
+# 🎨 What Format
 
-## 功能特性
+<img src="https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+<img src="https://img.shields.io/badge/FastAPI-0.109+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+<img src="https://img.shields.io/badge/Three.js-r160-black?style=for-the-badge&logo=threedotjs&logoColor=white" alt="Three.js">
+<img src="https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS">
 
-- **多格式输入**: 支持PDF、DOCX、PNG、JPG格式的模板文件
-- **智能内容提取**: 自动识别简历各部分内容（教育、技能、经历等）
-- **模板样式分析**: 分析模板的视觉结构和样式信息
-- **格式统一输出**: 将内容按照选定模板样式重新排版
-- **并发处理**: 支持多用户同时使用
-- **错误重试**: 自动重试机制确保高成功率
+<br><br>
 
-## 快速开始
+**✨ Transform chaos into order. ✨**
 
-### 1. 环境准备
+*An intelligent document formatting platform with stunning 3D visualization*
+
+[Features](#-features) • [Quick Start](#-quick-start) • [API](#-api-reference) • [Architecture](#-architecture) • [Contributing](#-contributing)
+
+---
+
+</div>
+
+## 🌟 Overview
+
+**What Format** is a modern document intelligence platform that transforms your resumes and cover letters into professionally formatted documents. Featuring an immersive 3D preview experience powered by Three.js and a sleek dark-mode UI.
+
+<div align="center">
+
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║                                                           ║
+   ║     📄  Upload Your Document                              ║
+   ║           ↓                                               ║
+   ║     🤖  AI-Powered Content Extraction                     ║
+   ║           ↓                                               ║
+   ║     🎨  Smart Template Formatting                         ║
+   ║           ↓                                               ║
+   ║     ✨  Download Professional Result                      ║
+   ║                                                           ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
+
+</div>
+
+## 🚀 Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🎯 Core Capabilities
+- **Multi-Format Input** - PDF, DOCX, DOC support
+- **Smart Extraction** - AI-powered content recognition
+- **Template Analysis** - Visual structure parsing
+- **Professional Output** - Clean, formatted DOCX
+
+</td>
+<td width="50%">
+
+### 🎨 User Experience
+- **3D Document Preview** - Interactive Three.js visualization
+- **Dark Mode UI** - Modern minimalist design
+- **Real-time Feedback** - Live processing status
+- **Bilingual Support** - English / 中文
+
+</td>
+</tr>
+</table>
+
+### 🔥 Highlights
+
+| Feature | Description |
+|---------|-------------|
+| 🖼️ **3D Visualization** | Real-time 3D document preview with mouse interaction |
+| 🌙 **Dark Mode** | Eye-friendly dark theme with high contrast |
+| ⚡ **Fast Processing** | Async architecture for rapid conversion |
+| 🔒 **Secure** | Local processing, no data leaves your server |
+| 📱 **Responsive** | Works on desktop and mobile devices |
+
+## 📸 Screenshots
+
+<div align="center">
+
+| Home Page | Format Page | About Page |
+|:---------:|:-----------:|:----------:|
+| 🏠 Kinetic Typography | 📄 3D Document Preview | ℹ️ Mission Statement |
+| Particle Background | Interactive Controls | Stats Display |
+
+</div>
+
+## 🛠️ Quick Start
+
+### Prerequisites
+
+- Python 3.10+
+- pip package manager
+
+### Installation
 
 ```bash
-# 创建虚拟环境
+# Clone the repository
+git clone https://github.com/Willa1m/What_Format.git
+cd What_Format
+
+# Create virtual environment
 python -m venv venv
 
-# 激活虚拟环境
-.\venv\Scripts\activate  # Windows
-source venv/bin/activate  # macOS/Linux
+# Activate virtual environment
+# Windows (PowerShell)
+.\venv\Scripts\Activate.ps1
+# macOS/Linux
+source venv/bin/activate
 
-# 安装依赖
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. 启动服务
+### Launch
 
 ```bash
-uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
+# Start Backend API Server (Port 8000)
+python main.py
+
+# Start Frontend Dev Server (Port 5173) - in another terminal
+cd frontend
+python -m http.server 5173
 ```
 
-### 3. 访问服务
+### Access
 
-- 前端界面: http://localhost:8000
-- API文档: http://localhost:8000/docs
+| Service | URL |
+|---------|-----|
+| 🌐 Frontend | http://localhost:5173 |
+| 📡 API Docs | http://localhost:8000/docs |
+| ❤️ Health Check | http://localhost:8000/api/health |
 
-## 项目结构
+## 📁 Project Structure
 
 ```
-what_format/
-├── backend/                 # 后端代码
-│   ├── api/                # API路由
-│   ├── models/             # 数据模型
-│   ├── services/           # 核心服务
-│   │   ├── file_parser.py       # 文件解析
-│   │   ├── template_analyzer.py # 模板分析
-│   │   ├── content_extractor.py # 内容提取
-│   │   ├── format_converter.py  # 格式转换
-│   │   └── document_generator.py# 文档生成
-│   ├── utils/              # 工具函数
-│   ├── config.py           # 配置管理
-│   └── main.py             # 主入口
-├── frontend/               # 前端文件
-├── tests/                  # 测试用例
-├── docs/                   # 文档
-│   ├── API.md             # API文档
-│   ├── ALGORITHM.md       # 算法说明
-│   ├── ENVIRONMENT.md     # 环境配置
-│   └── DEPLOYMENT.md      # 部署指南
-├── Samples/               # 样例文件
-├── logs/                  # 日志目录
-├── uploads/               # 上传临时目录
-├── outputs/               # 输出目录
-├── requirements.txt       # 依赖列表
-└── README.md
+What_Format/
+│
+├── 🎨 frontend/                 # Frontend Application
+│   ├── index.html              # Home - Kinetic typography & 3D particles
+│   ├── convert.html            # Format - 3D document preview
+│   ├── about.html              # About - Mission & stats
+│   ├── css/style.css           # Design system & animations
+│   └── js/
+│       ├── main.js             # Core logic & i18n
+│       ├── scene.js            # 3D document renderer
+│       └── home_bg.js          # Particle background
+│
+├── ⚙️ backend/                  # Backend API
+│   ├── api/routes.py           # REST endpoints
+│   ├── services/               # Business logic
+│   │   ├── file_parser.py      # Document parsing
+│   │   ├── content_extractor.py# Content extraction
+│   │   ├── template_processor.py# Template processing
+│   │   └── document_generator.py# DOCX generation
+│   ├── models/schemas.py       # Pydantic models
+│   ├── utils/                  # Helpers & logger
+│   ├── config.py               # Configuration
+│   └── main.py                 # FastAPI app
+│
+├── 📚 docs/                     # Documentation
+├── 📄 Samples/                  # Sample files
+├── 🧪 tests/                    # Test suite (excluded from repo)
+├── main.py                     # Entry point
+└── requirements.txt            # Dependencies
 ```
 
-## API接口
+## 🔌 API Reference
 
-### 主要接口
+### Endpoints
 
-| 端点 | 方法 | 说明 |
-|------|------|------|
-| `/api/health` | GET | 健康检查 |
-| `/api/supported-formats` | GET | 获取支持的格式 |
-| `/api/process` | POST | 文件处理主接口 |
-| `/api/process-sample` | POST | 样例文件处理 |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/health` | Health check |
+| `GET` | `/api/supported-formats` | List supported formats |
+| `GET` | `/api/templates/info` | Get template information |
+| `POST` | `/api/resume/convert` | Convert resume document |
+| `POST` | `/api/cover-letter/convert` | Convert cover letter |
+| `GET` | `/api/files/{filename}` | Download converted file |
 
-### 使用示例
+### Example Request
 
 ```bash
-# 处理文件
-curl -X POST "http://localhost:8000/api/process" \
-  -F "template_file=@template.pdf" \
-  -F "content_file=@resume.docx" \
-  --output formatted_resume.docx
+# Convert a resume
+curl -X POST "http://localhost:8000/api/resume/convert" \
+  -F "content_file=@your_resume.pdf" \
+  -H "accept: application/json"
+
+# Response
+{
+  "task_id": "abc123",
+  "status": "completed",
+  "download_url": "/api/files/Your_Resume_Formatted.docx",
+  "processing_time": 1.23
+}
 ```
 
-## 测试
+## 🏗️ Architecture
 
-```bash
-# 运行所有测试
-pytest tests/ -v
-
-# 运行特定测试
-pytest tests/test_integration.py -v
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        CLIENT BROWSER                            │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
+│  │  index.html │  │convert.html │  │ about.html  │              │
+│  │   (Home)    │  │  (Format)   │  │   (About)   │              │
+│  └──────┬──────┘  └──────┬──────┘  └─────────────┘              │
+│         │                │                                       │
+│         │    ┌───────────┴───────────┐                          │
+│         │    │      Three.js         │                          │
+│         │    │  3D Document Scene    │                          │
+│         │    └───────────────────────┘                          │
+└─────────┼────────────────────────────────────────────────────────┘
+          │ HTTP/REST
+          ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      FASTAPI BACKEND                             │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │                    API Router                            │    │
+│  │   /resume/convert  /cover-letter/convert  /files/{id}   │    │
+│  └─────────────────────────┬───────────────────────────────┘    │
+│                            │                                     │
+│  ┌─────────────────────────▼───────────────────────────────┐    │
+│  │                   Services Layer                         │    │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │    │
+│  │  │  Parser  │→│Extractor │→│Processor │→│Generator │   │    │
+│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘   │    │
+│  └─────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-## 系统依赖
+## 🎨 Design System
 
-### 可选依赖（用于图片模板OCR）
+| Element | Value |
+|---------|-------|
+| **Background** | `#080808` (Deep Black) |
+| **Text** | `#E0D4C5` (Warm Cream) |
+| **Accent** | `#FFFFFF` (Pure White) |
+| **Font Display** | Syne (800) |
+| **Font Body** | Inter (300-500) |
 
-- **Tesseract OCR**: 用于图片文字识别
-  - Windows: [下载安装](https://github.com/UB-Mannheim/tesseract/wiki)
-  - macOS: `brew install tesseract`
-  - Linux: `sudo apt-get install tesseract-ocr`
+## ⚙️ Configuration
 
-- **Poppler**: 用于PDF转图片
-  - Windows: [下载安装](https://github.com/oschwartz10612/poppler-windows/releases)
-  - macOS: `brew install poppler`
-  - Linux: `sudo apt-get install poppler-utils`
-
-## 配置
-
-可通过 `.env` 文件或环境变量配置：
+Create a `.env` file in the root directory:
 
 ```env
+# Server
 DEBUG=false
 HOST=0.0.0.0
 PORT=8000
+
+# Processing
 MAX_FILE_SIZE=15728640
+
+# OCR (Optional)
 TESSERACT_CMD=tesseract
 OCR_LANGUAGE=chi_sim+eng
 ```
 
-## 文档
+## 📖 Documentation
 
-- [API接口文档](docs/API.md)
-- [算法实现说明](docs/ALGORITHM.md)
-- [环境配置文档](docs/ENVIRONMENT.md)
-- [部署指南](docs/DEPLOYMENT.md)
+| Document | Description |
+|----------|-------------|
+| [API.md](docs/API.md) | Complete API documentation |
+| [ALGORITHM.md](docs/ALGORITHM.md) | Processing algorithms |
+| [ENVIRONMENT.md](docs/ENVIRONMENT.md) | Environment setup |
+| [DEPLOYMENT.md](docs/DEPLOYMENT.md) | Deployment guide |
 
-## 技术栈
+## 🤝 Contributing
 
-- **后端**: FastAPI, Python 3.10+
-- **前端**: Vue.js 3, TailwindCSS
-- **文档处理**: python-docx, pdfplumber, pytesseract
-- **日志**: loguru
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 许可证
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-MIT License
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Three.js](https://threejs.org/) - 3D graphics library
+- [FastAPI](https://fastapi.tiangolo.com/) - Modern Python web framework
+- [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [python-docx](https://python-docx.readthedocs.io/) - DOCX generation
 
 ---
 
-*Created: 2026-01-29*
+<div align="center">
+
+**Made with ❤️ by [Willa1m](https://github.com/Willa1m)**
+
+*Transform your documents. Elevate your career.*
+
+<br>
+
+⭐ Star this repo if you find it useful!
+
+</div>
