@@ -1,0 +1,137 @@
+/* 
+ * WHAT FORMAT - DESIGN SYSTEM v2.5 (High-End Creative)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;700;800&display=swap');
+
+:root {
+    --bg-color: #080808;
+    --text-color: #E0D4C5;
+    --accent-color: #E0D4C5;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(224, 212, 197, 0.08);
+    --cursor-size: 20px;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    margin: 0;
+    cursor: none; /* Hide default cursor for custom one */
+}
+
+/* Typography */
+h1, h2, h3, .font-display {
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -0.03em;
+}
+
+.text-fluid {
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1;
+    font-weight: 800;
+    text-transform: uppercase;
+    will-change: transform;
+    letter-spacing: -0.04em;
+}
+
+/* Custom Cursor */
+#cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    border: 1px solid var(--text-color);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+    mix-blend-mode: difference;
+}
+
+#cursor.hovered {
+    width: 60px;
+    height: 60px;
+    background-color: var(--text-color);
+    border-color: transparent;
+    opacity: 0.8;
+}
+
+/* Magnetic Button Effect */
+.magnetic-wrap {
+    display: inline-block;
+    position: relative;
+}
+
+.magnetic-area {
+    position: absolute;
+    top: -20px; left: -20px; right: -20px; bottom: -20px;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+/* Animations */
+.reveal-text span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes revealUp {
+    from { opacity: 0; transform: translateY(100%) rotate(5deg); }
+    to { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    position: absolute;
+    bottom: 5vh;
+    width: 100%;
+    opacity: 0.5;
+}
+
+.marquee-content {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+    font-family: 'Syne', sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-color);
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Glass UI */
+.glass-nav {
+    background: rgba(8, 8, 8, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.grain-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 900;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* 3D Canvas */
+#bg-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Format - WhatFormat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
+    <script>
+        window.WF_API_BASE = "http://localhost:8000/api";
+    </script>
+</head>
+<body class="h-screen overflow-hidden bg-[#080808]">
+
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+
+    <!-- Noise Texture -->
+    <div class="grain-overlay"></div>
+
+    <!-- 3D Canvas Background (Fixed, behind everything) -->
+    <div id="canvas-container" class="fixed inset-0 z-0"></div>
+
+    <!-- Main UI Layer -->
+    <div class="relative z-20 h-full flex flex-col p-6 md:p-10">
+        
+        <!-- Header -->
+        <nav class="flex justify-between items-center">
+            <a href="index.html" class="hover-trigger font-display font-bold text-2xl tracking-tighter text-white">
+                WF<span class="text-gray-500">.</span>
+            </a>
+            <div class="flex gap-8 text-xs uppercase tracking-widest font-medium text-white">
+                <a href="index.html" class="hover-trigger hover:text-gray-400 transition-colors">Home</a>
+                <a href="convert.html" class="hover-trigger text-gray-400">Format</a>
+                <a href="about.html" class="hover-trigger hover:text-gray-400 transition-colors">About</a>
+            </div>
+            <button id="lang-toggle" class="hover-trigger font-mono text-[10px] border border-white/20 px-3 py-1.5 rounded-full hover:bg-white hover:text-black transition-all uppercase text-white">EN</button>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex items-center gap-8 mt-8">
+            
+            <!-- Left Panel - Controls -->
+            <div class="w-full max-w-sm bg-[#0a0a0a]/90 backdrop-blur-md border border-white/10 p-6 space-y-6 rounded-lg">
+                
+                <div>
+                    <h2 class="font-display text-2xl text-white mb-1">CONVERT</h2>
+                    <p class="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Select document type</p>
+                </div>
+
+                <!-- Type Selector -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="hover-trigger doc-type-btn bg-white text-black py-3 text-xs font-mono uppercase tracking-widest transition-all" data-type="resume">
+                        Resume
+                    </button>
+                    <button class="hover-trigger doc-type-btn border border-white/20 text-white py-3 text-xs font-mono uppercase tracking-widest hover:bg-white hover:text-black transition-all" data-type="cover_letter">
+                        Cover Letter
+                    </button>
+                </div>
+
+                <!-- Upload Zone -->
+                <div id="drop-zone" class="hover-trigger border border-dashed border-white/20 h-28 flex flex-col items-center justify-center cursor-pointer hover:border-white hover:bg-white/5 transition-all group rounded">
+                    <span class="text-xl mb-1 group-hover:-translate-y-1 transition-transform text-gray-400 group-hover:text-white">↑</span>
+                    <span class="text-[10px] font-mono text-gray-500 group-hover:text-white" id="file-label">Drop file or Click</span>
+                    <input type="file" id="file-input" class="hidden" accept=".pdf,.docx,.doc">
+                </div>
+
+                <!-- Action Button -->
+                <button id="convert-btn" disabled class="hover-trigger w-full bg-white text-black py-3 font-display font-bold uppercase tracking-widest hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all rounded">
+                    Convert
+                </button>
+
+                <!-- Status -->
+                <div id="status-panel" class="hidden border-t border-white/10 pt-4 space-y-2">
+                    <div class="flex justify-between text-[10px] font-mono text-gray-400">
+                        <span>STATUS</span>
+                        <span id="status-text" class="text-white">PROCESSING</span>
+                    </div>
+                    <div class="w-full bg-gray-800 h-[2px] rounded overflow-hidden">
+                        <div id="progress-bar" class="bg-white h-full w-0 transition-all duration-500"></div>
+                    </div>
+                    <a id="download-link" href="#" class="hidden block text-center text-xs font-mono text-white underline pt-2 hover:text-gray-300">Download Result</a>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-between items-end text-[10px] font-mono text-gray-600 uppercase">
+            <span>Template Visualization</span>
+            <span class="text-white">SCENE 01</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+        import { SceneManager } from './js/scene.js';
+        
+        // Init 3D Scene
+        const scene = new SceneManager('canvas-container');
+        let currentType = 'resume';
+        
+        // Set initial document to resume
+        setTimeout(() => scene.updateFormat('resume'), 100);
+
+        // Type Buttons
+        document.querySelectorAll('.doc-type-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset all buttons
+                document.querySelectorAll('.doc-type-btn').forEach(b => {
+                    b.classList.remove('bg-white', 'text-black');
+                    b.classList.add('border', 'border-white/20', 'text-white');
+                });
+                // Highlight clicked button
+                btn.classList.add('bg-white', 'text-black');
+                btn.classList.remove('border', 'border-white/20', 'text-white');
+
+                // Update 3D model
+                currentType = btn.dataset.type;
+                console.log('Switching to:', currentType);
+                scene.updateFormat(currentType);
+            });
+        });
+
+        // File Upload
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileLabel = document.getElementById('file-label');
+        const convertBtn = document.getElementById('convert-btn');
+        const statusPanel = document.getElementById('status-panel');
+        const statusText = document.getElementById('status-text');
+        const progressBar = document.getElementById('progress-bar');
+        const downloadLink = document.getElementById('download-link');
+        const apiBase = window.WF_API_BASE;
+
+        let selectedFile = null;
+
+        dropZone.onclick = () => fileInput.click();
+        fileInput.onchange = (e) => {
+            if(e.target.files[0]) {
+                selectedFile = e.target.files[0];
+                fileLabel.textContent = selectedFile.name;
+                fileLabel.classList.add('text-white');
+                convertBtn.disabled = false;
+            }
+        };
+
+        convertBtn.onclick = async () => {
+            if(!selectedFile) return;
+            
+            statusPanel.classList.remove('hidden');
+            downloadLink.classList.add('hidden');
+            progressBar.style.width = '30%';
+            convertBtn.disabled = true;
+            statusText.textContent = "UPLOADING...";
+
+            const formData = new FormData();
+            formData.append('content_file', selectedFile);
+            
+            const endpoint = currentType === 'resume' ? '/resume/convert' : '/cover-letter/convert';
+
+            try {
+                const res = await fetch(`${apiBase}${endpoint}`, { method: 'POST', body: formData });
+                const data = await res.json();
+                
+                if(!res.ok) throw new Error(data.detail || 'Error');
+
+                progressBar.style.width = '100%';
+                statusText.textContent = "COMPLETED";
+                
+                if(data.download_url) {
+                    downloadLink.href = `http://localhost:8000${data.download_url}`;
+                    downloadLink.classList.remove('hidden');
+                    downloadLink.textContent = `DOWNLOAD ${currentType.toUpperCase()}`;
+                }
+            } catch (err) {
+                statusText.textContent = "FAILED: " + err.message;
+                progressBar.style.backgroundColor = '#ef4444';
+            }
+        };
+
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        hoverTriggers.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+    </script>
+</body>
+</html>

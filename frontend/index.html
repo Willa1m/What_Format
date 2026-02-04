@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatFormat - The Architect of Order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
+</head>
+<body class="overflow-hidden">
+
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+
+    <!-- Noise Texture -->
+    <div class="grain-overlay"></div>
+
+    <!-- 3D Background -->
+    <div id="bg-canvas"></div>
+
+    <!-- Main Interface -->
+    <div class="relative z-10 h-screen flex flex-col justify-between p-8 md:p-12">
+        
+        <!-- Nav -->
+        <nav class="flex justify-between items-center mix-blend-difference">
+            <a href="index.html" class="hover-trigger font-display font-bold text-2xl tracking-tighter text-white">
+                WF<span class="text-gray-500">.</span>
+            </a>
+            
+            <div class="hidden md:flex gap-12 text-xs uppercase tracking-widest font-medium text-white">
+                <a href="index.html" class="hover-trigger hover:text-gray-400 transition-colors">Home</a>
+                <a href="convert.html" class="hover-trigger hover:text-gray-400 transition-colors">Format</a>
+                <a href="about.html" class="hover-trigger hover:text-gray-400 transition-colors">About</a>
+            </div>
+
+            <button id="lang-toggle" class="hover-trigger font-mono text-[10px] border border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all uppercase text-white backdrop-blur-sm">
+                EN
+            </button>
+        </nav>
+
+        <!-- Hero Content -->
+        <main class="flex flex-col items-center justify-center text-center space-y-8 mt-[-5vh]">
+            
+            <div class="reveal-text overflow-hidden">
+                <p class="font-mono text-xs md:text-sm text-gray-400 uppercase tracking-[0.3em] mb-4">
+                    <span>Document Intelligence Redefined</span>
+                </p>
+            </div>
+
+            <h1 class="text-fluid text-white mix-blend-difference leading-tight tracking-tight">
+                <div class="reveal-text overflow-hidden"><span>ORDER</span></div>
+                <div class="reveal-text overflow-hidden text-gray-500"><span>FROM</span></div>
+                <div class="reveal-text overflow-hidden"><span>CHAOS</span></div>
+            </h1>
+
+            <div class="magnetic-wrap mt-12">
+                <div class="magnetic-area"></div>
+                <a href="convert.html" class="hover-trigger group relative inline-flex items-center justify-center px-12 py-6 bg-white text-black font-display font-bold text-lg uppercase tracking-widest overflow-hidden rounded-full transition-transform duration-300 hover:scale-110">
+                    <span class="relative z-10 group-hover:text-white transition-colors duration-300">Format Now</span>
+                    <div class="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                </a>
+            </div>
+
+        </main>
+
+        <!-- Bottom Marquee -->
+        <div class="marquee-container pointer-events-none">
+            <div class="marquee-content">
+                PDF • DOCX • INTELLIGENT • FORMATTING • SECURE • FAST • AI DRIVEN • 
+                PDF • DOCX • INTELLIGENT • FORMATTING • SECURE • FAST • AI DRIVEN •
+            </div>
+        </div>
+
+        <!-- Footer Info -->
+        <div class="flex justify-between items-end text-[10px] font-mono text-gray-500 uppercase mix-blend-difference">
+            <div>
+                <span class="block text-white">System Status</span>
+                <span class="flex items-center gap-2">
+                    <span class="w-1 h-1 bg-green-500 rounded-full animate-pulse"></span>
+                    Operational
+                </span>
+            </div>
+            <div class="text-right">
+                <span class="block">Scroll for more</span>
+                <span class="block text-white">↓</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+        import { HomeBackground } from './js/home_bg.js';
+        
+        // Init Background
+        new HomeBackground('bg-canvas');
+
+        // --- Interaction Scripts ---
+        
+        // 1. Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        hoverTriggers.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // 2. Magnetic Button
+        const magneticWrap = document.querySelector('.magnetic-wrap');
+        const magneticBtn = magneticWrap.querySelector('a');
+        
+        magneticWrap.addEventListener('mousemove', (e) => {
+            const rect = magneticWrap.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            magneticBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+
+        magneticWrap.addEventListener('mouseleave', () => {
+            magneticBtn.style.transform = 'translate(0px, 0px)';
+        });
+
+        // 3. Text Reveal Animation (Staggered)
+        const revealSpans = document.querySelectorAll('.reveal-text span');
+        revealSpans.forEach((span, index) => {
+            span.style.animationDelay = `${0.2 + index * 0.1}s`;
+        });
+
+    </script>
+</body>
+</html>
