@@ -35,14 +35,14 @@ export class HomeBackground {
     }
 
     createParticles() {
-        const particleCount = 400;
+        const particleCount = 200; // Reduced from 400 for cleaner look
         // Paper sheet geometry
         const geometry = new THREE.PlaneGeometry(0.4, 0.6); 
         const material = new THREE.MeshBasicMaterial({ 
             color: 0xE0D4C5, 
             side: THREE.DoubleSide,
             transparent: true,
-            opacity: 0.6
+            opacity: 0.4 // Reduced from 0.6 for cleaner look
         });
 
         for (let i = 0; i < particleCount; i++) {

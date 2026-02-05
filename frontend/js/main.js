@@ -8,88 +8,84 @@ const i18n = {
         nav: {
             home: "Home",
             format: "Format",
-            about: "About Us"
+            about: "About"
         },
         home: {
-            title: "FORMAT_REDEFINED",
-            subtitle: "The ultimate solution for document intelligence.",
-            cta: "START CONVERTING",
-            features: ["AI Powered", "Secure", "Lightning Fast"]
+            tagline: "Document Intelligence Redefined",
+            slogan1: "ORDER",
+            slogan2: "FROM",
+            slogan3: "CHAOS",
+            cta: "Format Now",
+            status: "System Status",
+            operational: "Operational",
+            scroll: "Scroll for more"
         },
         convert: {
-            title: "INTERACTIVE_CONVERSION",
-            select: "Select Document",
-            upload: "Upload Document",
-            convert: "Convert Now",
-            converting: "Processing...",
+            title: "CONVERT",
+            subtitle: "Select document type",
+            resume: "Resume",
+            coverLetter: "Cover Letter",
+            dropText: "Drop file or Click",
+            convertBtn: "Convert",
+            status: "STATUS",
+            processing: "PROCESSING",
+            uploading: "UPLOADING...",
+            completed: "COMPLETED",
+            failed: "FAILED",
             download: "Download Result",
-            formats: {
-                resume: "Resume",
-                cover_letter: "Cover Letter"
-            },
-            inputFormats: "Input formats",
-            outputFormats: "Output format",
-            metaLoading: "Loading API metadata...",
-            metaFailed: "Failed to load API metadata",
-            templatesLabel: "Templates",
-            recipientName: "Recipient Name",
-            recipientTitle: "Recipient Title",
-            recipientCompany: "Recipient Company",
-            recipientLocation: "Recipient Location",
-            errors: {
-                noFile: "Please select a file first.",
-                failed: "Conversion failed.",
-                network: "Network error."
-            }
+            footer: "Template Visualization"
         },
         about: {
-            title: "ABOUT_US",
-            desc: "We are a team of engineers dedicated to simplifying file complexities through elegant code and immersive design.",
-            mission: "Our Mission: To make format conversion an art form."
+            title1: "Our",
+            title2: "Mission",
+            quote: '"We believe that the <span class="text-white font-medium">form of information</span> is as important as the information itself. We are redefining document intelligence through <span class="text-white font-medium">pure aesthetics</span> and code."',
+            stat1: "Accuracy",
+            stat2: "Processing",
+            stat3: "Uptime",
+            footer1: "Est. 2026",
+            footer2: "Version 2.0"
         }
     },
     zh: {
         nav: {
             home: "首页",
             format: "格式转换",
-            about: "关于我们"
+            about: "关于"
         },
         home: {
-            title: "格式_重定义",
-            subtitle: "智能文档处理的终极方案。",
-            cta: "开始转换",
-            features: ["AI 驱动", "安全隐私", "极速处理"]
+            tagline: "重新定义文档智能",
+            slogan1: "秩序",
+            slogan2: "源于",
+            slogan3: "混沌",
+            cta: "立即转换",
+            status: "系统状态",
+            operational: "运行正常",
+            scroll: "向下滚动查看更多"
         },
         convert: {
-            title: "交互式转换",
-            select: "选择文档类型",
-            upload: "上传文档",
-            convert: "开始转换",
-            converting: "处理中...",
+            title: "格式转换",
+            subtitle: "选择文档类型",
+            resume: "简历",
+            coverLetter: "求职信",
+            dropText: "拖放文件或点击上传",
+            convertBtn: "开始转换",
+            status: "状态",
+            processing: "处理中",
+            uploading: "上传中...",
+            completed: "已完成",
+            failed: "失败",
             download: "下载结果",
-            formats: {
-                resume: "简历",
-                cover_letter: "求职信"
-            },
-            inputFormats: "输入格式",
-            outputFormats: "输出格式",
-            metaLoading: "正在加载接口信息...",
-            metaFailed: "接口信息加载失败",
-            templatesLabel: "模板",
-            recipientName: "收件人姓名",
-            recipientTitle: "收件人职位",
-            recipientCompany: "收件人公司",
-            recipientLocation: "收件人地址",
-            errors: {
-                noFile: "请先选择文件。",
-                failed: "转换失败。",
-                network: "网络错误。"
-            }
+            footer: "模板可视化"
         },
         about: {
-            title: "关于我们",
-            desc: "我们是一群致力于通过优雅的代码和沉浸式设计简化文件复杂性的工程师团队。",
-            mission: "使命：让格式转换成为一门艺术。"
+            title1: "我们的",
+            title2: "使命",
+            quote: '"我们相信<span class="text-white font-medium">信息的形式</span>与信息本身同样重要。我们正在通过<span class="text-white font-medium">纯粹的美学</span>和代码重新定义文档智能。"',
+            stat1: "准确率",
+            stat2: "处理速度",
+            stat3: "在线时间",
+            footer1: "创立于 2026",
+            footer2: "版本 2.0"
         }
     }
 };
@@ -143,6 +139,8 @@ class AppState {
 
     updateTexts() {
         const texts = i18n[this.lang];
+        
+        // Handle regular text translations
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.dataset.i18n;
             const keys = key.split('.');
@@ -155,9 +153,20 @@ class AppState {
             }
         });
         
-        // Update Lang Button Text
+        // Handle HTML translations (for content with markup)
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+            const key = el.dataset.i18nHtml;
+            const keys = key.split('.');
+            let value = texts;
+            keys.forEach(k => value = value ? value[k] : '');
+            if (value) {
+                el.innerHTML = value;
+            }
+        });
+        
+        // Update Lang Button Text - Show the language to switch TO
         const langBtn = document.getElementById('lang-toggle');
-        if(langBtn) langBtn.textContent = this.lang === 'en' ? 'CN' : 'EN';
+        if(langBtn) langBtn.textContent = this.lang === 'en' ? '中文' : 'EN';
     }
 
     bindEvents() {
