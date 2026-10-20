@@ -11,7 +11,7 @@
 
 **✨ Transform chaos into order. ✨**
 
-*An intelligent document formatting platform with stunning 3D visualization*
+*A rule-based resume & cover-letter formatter with a Three.js web UI — a personal learning project*
 
 [Features](#-features) • [Quick Start](#-quick-start) • [API](#-api-reference) • [Architecture](#-architecture) • [Contributing](#-contributing)
 
@@ -21,7 +21,7 @@
 
 ## 🌟 Overview
 
-**What Format** is a modern document intelligence platform that transforms your resumes and cover letters into professionally formatted documents. Featuring an immersive 3D preview experience powered by Three.js and a sleek dark-mode UI.
+**What Format** is a personal learning project: it parses resumes and cover letters (PDF/DOCX), detects their sections with keyword, regex and synonym rules, and re-renders them into a clean DOCX template. Featuring an immersive 3D preview experience powered by Three.js and a sleek dark-mode UI.
 
 <div align="center">
 
@@ -30,7 +30,7 @@
    ║                                                           ║
    ║     📄  Upload Your Document                              ║
    ║           ↓                                               ║
-   ║     🤖  AI-Powered Content Extraction                     ║
+   ║     🔎  Rule-Based Section Detection                      ║
    ║           ↓                                               ║
    ║     🎨  Smart Template Formatting                         ║
    ║           ↓                                               ║
@@ -49,7 +49,7 @@
 
 ### 🎯 Core Capabilities
 - **Multi-Format Input** - PDF, DOCX, DOC support
-- **Smart Extraction** - AI-powered content recognition
+- **Section Detection** - keyword, regex and synonym rules (`backend/services/smart_classifier.py`)
 - **Template Analysis** - Visual structure parsing
 - **Professional Output** - Clean, formatted DOCX
 
@@ -75,17 +75,6 @@
 | ⚡ **Fast Processing** | Async architecture for rapid conversion |
 | 🔒 **Secure** | Local processing, no data leaves your server |
 | 📱 **Responsive** | Works on desktop and mobile devices |
-
-## 📸 Screenshots
-
-<div align="center">
-
-| Home Page | Format Page | About Page |
-|:---------:|:-----------:|:----------:|
-| 🏠 Kinetic Typography | 📄 3D Document Preview | ℹ️ Mission Statement |
-| Particle Background | Interactive Controls | Stats Display |
-
-</div>
 
 ## 🛠️ Quick Start
 
@@ -301,3 +290,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ⭐ Star this repo if you find it useful!
 
 </div>
+
+## 中文说明
+
+What Format 是我自己的学习项目，用来把简历和求职信整理成统一格式。
+
+- 后端：用 FastAPI 接收 PDF 或 DOCX 文件，经过「解析 → 内容抽取 → 模板处理 → 生成 DOCX」四个步骤输出结果。
+- 分段识别：基于关键词、正则表达式和同义词库的规则方法（见 `backend/services/smart_classifier.py`），没有使用机器学习模型。
+- 前端：静态页面，带 Three.js 3D 文档预览，支持中英文切换。
+
+运行方式：
+
+1. 执行 `pip install -r requirements.txt` 安装依赖；
+2. 执行 `python main.py` 启动后端（端口 8000）；
+3. 在 `frontend/` 目录下执行 `python -m http.server 5173` 启动前端页面。
