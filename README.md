@@ -291,6 +291,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 </div>
 
+---
+
+*Documentation and repository cleanup were done with AI assistance (Claude Code); the project code and results are my own.*
+
 ## 中文说明
 
 What Format 是我自己的学习项目，用来把简历和求职信整理成统一格式。
